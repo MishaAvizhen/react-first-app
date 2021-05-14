@@ -1,10 +1,17 @@
-.header{
+.header {
     grid-area: h;
     background-color: olivedrab;
-  }
-  .header img{
+}
+
+.header img {
     width: 100px;
     height: 60px;
-   
-  }
+
+}
+
+.item{
+    color: black;
+    padding: 10px;
+    font-size: 30px;
+}
  

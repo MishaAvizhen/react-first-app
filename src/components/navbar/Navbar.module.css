@@ -1,7 +1,15 @@
-.navbar{
+.navbar {
     grid-area: n;
     background-color: greenyellow;
-  }
-  .item{
+    padding: 20px;
+}
+
+.item a {
     color: indigo;
-  }
+    text-decoration: none;
+}
+
+.item a.activeLink {
+    color: darkturquoise;
+
+}

@@ -1,22 +1,35 @@
 import style from './MyPosts.module.css';
 import Post from './post/Post';
+
 const MyPosts = () => {
+    let posts = [
+        {message: "Hello", like: 45},
+        {message: "First post", like: 12},
+        {message: "Second post", like: 87},
+    ]
+    let postElement =
+        posts.map(p => {
+            return <Post message={p.message} like={p.like}/>
+        });
     return (
-        <div className= {style.item}> 
-            My Post
+        <div className={style.item}>
+            <h3> My Post</h3>
             <div>
-                <textarea></textarea>
+                <textarea>
+                    Test1
+                </textarea>
+            </div>
+            <div>
                 <button> Add post</button>
             </div>
-       
-        <div className={style.content}>
-          <Post message = 'Hello' like = '5'/>
-          <Post message = 'First post' like = '88'/>
-          <Post message = 'Second post' like = '33'/>
-         
+
+            <div className={style.content}>
+                {postElement}
+
+
+            </div>
         </div>
-        </div>
-        
+
     );
 }
 
