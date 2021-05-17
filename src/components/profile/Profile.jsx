@@ -2,10 +2,11 @@ import MyPosts from './myPosts/MyPosts';
 import ProfileInfo from "./profileInfo/ProfileInfo";
 
 const Profile = (props) => {
+
     return (
         <div>
             <ProfileInfo/>
-            <MyPosts/>
+            <MyPosts posts={props.state.posts} addPost={props.addPost}/>
         </div>
     )
 }
