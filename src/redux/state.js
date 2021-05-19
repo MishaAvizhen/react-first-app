@@ -1,3 +1,10 @@
+const ADD_POST = "ADD_POST";
+const UPDATE_NEW_POST = "UPDATE_NEW_POST";
+
+const SEND_MESSAGE = "SEND_MESSAGE";
+const UPDATE_NEW_MESSAGE_TEXT = "UPDATE_NEW_MESSAGE_TEXT";
+
+
 let store = {
     _state: {
         profilePage: {
@@ -15,20 +22,27 @@ let store = {
                 {id: 4, name: "Bob"},
             ],
             messages: [
-                {message: "Hello"},
-                {message: "How are you?"},
-                {message: "Bla bla bla"},
-            ]
+                {id: 1, message: "Hello"},
+                {id: 2, message: "How are you?"},
+                {id: 3, message: "Bla bla bla"}
+            ],
+            newMessageText: ""
         }
     },
-
     getState() {
         return this._state;
     },
     _callSubscribe() {
         console.log(" rerender")
     },
-    addPost() {
+    subscribe(observe) {
+        this._callSubscribe = observe;
+    },
+    _updateNewPost(newText) {
+        this._state.profilePage.newPostText = newText;
+        this._callSubscribe(this._state);
+    },
+    _addPost() {
         let newPost = {
             id: 5,
             message: this._state.profilePage.newPostText,
@@ -38,12 +52,55 @@ let store = {
         this._state.profilePage.newPostText = "";
         this._callSubscribe(this._state);
     },
-    updateNewPost(newText) {
-        this._state.profilePage.newPostText = newText;
+    _updateNewMessageText(messageText) {
+        this._state.dialogsPage.newMessageText = messageText;
         this._callSubscribe(this._state);
     },
-    subscribe(observe) {
-        this._callSubscribe = observe;
+    _sendNewMessageText() {
+        let newMessage = {
+            id: 4,
+            message: this._state.dialogsPage.newMessageText
+        };
+        this._state.dialogsPage.messages.push(newMessage);
+        this._state.dialogsPage.newMessageText="";
+
+        this._callSubscribe(this._state);
+    },
+    dispatcher(action) {
+        if (action.type === ADD_POST) {
+            this._addPost()
+        } else if (action.type === UPDATE_NEW_POST) {
+            this._updateNewPost(action.newText)
+
+        } else if (action.type === SEND_MESSAGE) {
+            this._sendNewMessageText()
+        } else if (action.type === UPDATE_NEW_MESSAGE_TEXT) {
+            this._updateNewMessageText(action.messageText)
+        }
+    },
+}
+export const addPostActionCreator = () => {
+    return {
+        type: ADD_POST
+    }
+}
+export const updateNewPostActionCreator = (text) => {
+    return {
+        type: UPDATE_NEW_POST,
+        newText: text
+    }
+}
+
+export const sendNewMessageCreator = () => {
+    return {
+        type: SEND_MESSAGE
+    }
+}
+
+export const updateNewMessageTextCreator = (body) => {
+    return {
+        type: UPDATE_NEW_MESSAGE_TEXT,
+        messageText: body
     }
 }
 
