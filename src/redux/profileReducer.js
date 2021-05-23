@@ -9,19 +9,22 @@ let initialState = {
     newPostText: ""
 };
 const profileReducer = (state = initialState, action) => {
+    let stateCopy = {...state};
     if (action.type === ADD_POST) {
         let newPost = {
             id: 5,
             message: state.newPostText,
             like: 22
         };
-        state.posts.push(newPost);
-        state.newPostText = "";
+
+        stateCopy.posts = [...state.posts];
+        stateCopy.posts.push(newPost);
+        stateCopy.newPostText = "";
 
     } else if (action.type === UPDATE_NEW_POST) {
-        state.newPostText = action.newText;
+        stateCopy.newPostText = action.newText;
     }
-    return state;
+    return stateCopy;
 
 }
 export default profileReducer;

@@ -5,17 +5,16 @@ import React from "react";
 import {sendNewMessageCreator, updateNewMessageTextCreator} from "../../redux/store";
 
 const Dialogs = (props) => {
-    let state = props.store.getState().dialogsPage;
+    let state = props.dialogsPage;
 
     let newMessageOnClick = () => {
-        props.store.dispatch(sendNewMessageCreator());
+        props.sendNewMessage();
     }
     let onNewMessageChange = (event) => {
         let text = event.target.value;
-        props.store.dispatch(updateNewMessageTextCreator(text));
+        props.updateNewMessageText(text);
     }
     let newMessageText = state.newMessageText;
-
 
     let dialogElement =
         state.dialogs.map(d => {
