@@ -1,7 +1,7 @@
 const SEND_MESSAGE = "SEND_MESSAGE";
 const UPDATE_NEW_MESSAGE_TEXT = "UPDATE_NEW_MESSAGE_TEXT";
 
-let initialState=  {
+let initialState = {
     dialogs: [
         {id: 1, name: "Misha"},
         {id: 2, name: "Sasha"},
