@@ -32,4 +32,16 @@ const dialogReducer = (state=initialState, action) => {
     return stateCopy;
 
 }
+export const sendNewMessageCreator = () => {
+    return {
+        type: SEND_MESSAGE
+    }
+}
+
+export const updateNewMessageTextCreator = (body) => {
+    return {
+        type: UPDATE_NEW_MESSAGE_TEXT,
+        messageText: body
+    }
+}
 export default dialogReducer;
