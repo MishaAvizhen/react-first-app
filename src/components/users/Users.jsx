@@ -1,64 +1,69 @@
+import React from "react";
 import style from './User.module.css';
-import * as axios from "axios";
 import userPhoto from "../../assets/image/user.png"
+import * as axios from "axios";
 
-const Users = (props) => {
-    if (props.users.length === 0) {
-        props.setUsers([
+class Users extends React.Component {
 
-            {
-                id: 1,
-                photoUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRVeQX37fjP_C1d_S6nZ0htQXhkO4VentA-lg&usqp=CAU",
-                follow: true,
-                name: "Misha",
-                status: " I'am  junior React developer",
-                location: {country: "Belarus", city: "Minsk"}
-            },
-            {
-                id: 2,
-                photoUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRVeQX37fjP_C1d_S6nZ0htQXhkO4VentA-lg&usqp=CAU",
-                follow: false,
-                name: "Sasha",
-                status: " I'am  java developer",
-                location: {country: "Belarus", city: "Minsk"}
-            },
-            {
-                id: 3,
-                photoUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRVeQX37fjP_C1d_S6nZ0htQXhkO4VentA-lg&usqp=CAU",
-                follow: true,
-                name: "Bob",
-                status: " I'am   developer",
-                location: {country: "Russia", city: "Moscow"}
-            }
-        ]);
+    componentDidMount() {
+        axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${this.props.currentPage}&count=${this.props.pageSize}`)
+            .then(response => {
+                this.props.setUsers(response.data.items)
+                this.props.setTotalUserCount(response.data.totalCount)
+            });
     }
+onPageChanged=(pageNumber)=>{
+    this.props.setCurrentPage(pageNumber)
+    axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${pageNumber}&count=${this.props.pageSize}`)
+        .then(response => {
+            this.props.setUsers(response.data.items)
+        });
 
-    return <div>
-        {
-            props.users.map(u => <div key={u.id}>
+}
+    render() {
+        let pagesCount = Math.ceil(this.props.totalUserCount / this.props.pageSize);
+        let pages = [];
+        for (let i = 1; i <= pagesCount; i++) {
+            pages.push(i)
+
+
+        }
+
+        return <div>
+            <div>
+                {pages.map(p => {
+                    return < span className={this.props.currentPage === p && style.selectedPage}
+                    onClick={(e)=>{this.onPageChanged(p);}}>{p}</span>
+                })}
+            </div>
+            {
+                this.props.users.map(u => <div key={u.id}>
                 <span>
                     <div>
-                           <img className={style.userPhoto} src={userPhoto}/>
+                           <img className={style.userPhoto} src={userPhoto} alt={"user"}/>
                     </div>
                     <div>
                         {u.follow ? <button onClick={() => {
-                                props.follow(u.id)
+                                this.props.follow(u.id)
                             }}> Follow</button> :
                             <button onClick={() => {
-                                props.unfollow(u.id)
+                                this.props.unfollow(u.id)
                             }}> Unfollow</button>}
                     </div>
                 </span>
-                <span>
+                    <span>
                     <div>{u.name}</div>
                     <div>{u.status}</div>
                 </span>
-                <span>
-                    <div>{u.location.country}</div>
-                    <div>{u.location.city}</div>
+                    <span>
+                    <div>"u.location.country"</div>
+                    <div>"u.location.city"</div>
                 </span>
-            </div>)
-        }
-    </div>
+                </div>)
+            }
+        </div>
+
+    }
 }
+
 export default Users;

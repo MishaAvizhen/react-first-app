@@ -1,17 +1,14 @@
 const FOLLOW = "FOLLOW";
 const UNFOLLOW = "UNFOLLOW";
 const SET_USERS = "SET_USERS";
+const SET_CURRENT_PAGE = "SET_CURRENT_PAGE ";
+const SET_TOTAL_USER = "SET_TOTAL_USER ";
 
 let initialState = {
-    users: [
-        {id: 1, photoUrl:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRVeQX37fjP_C1d_S6nZ0htQXhkO4VentA-lg&usqp=CAU",
-            follow: true, name: "Misha", status: " I'am  junior React developer", location: {country: "Belarus", city: "Minsk"}},
-        {id: 2,photoUrl:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRVeQX37fjP_C1d_S6nZ0htQXhkO4VentA-lg&usqp=CAU",
-            follow: false, name: "Sasha", status: " I'am  java developer", location: {country: "Belarus", city: "Minsk"}},
-        {id: 3, photoUrl:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRVeQX37fjP_C1d_S6nZ0htQXhkO4VentA-lg&usqp=CAU",
-            follow: true,name: "Bob", status: " I'am   developer", location: {country: "Russia", city: "Moscow"}}
-
-    ]
+    users: [],
+    pageSize:10,
+    totalUserCount:0,
+    currentPage: 3
 };
 
 const usersReducer = (state = initialState, action) => {
@@ -41,7 +38,17 @@ const usersReducer = (state = initialState, action) => {
     }
     else if (action.type === SET_USERS) {
         return {
-            ...state, users: [...state.users, ...action.users]
+            ...state, users: action.users
+                }
+        }
+    else if (action.type === SET_CURRENT_PAGE ) {
+        return {
+            ...state, currentPage: action.currentPage
+                }
+        }
+    else if (action.type === SET_TOTAL_USER ) {
+        return {
+            ...state, totalUserCount: action.count
                 }
         }
     return state;
@@ -62,6 +69,16 @@ export const unfollowAC = (userId) => {
 export const setUsersAC = (users) => {
     return {
         type: SET_USERS, users
+    }
+}
+export const setCurrentPageAC = (currentPage) => {
+    return {
+        type: SET_CURRENT_PAGE, currentPage
+    }
+}
+export const setTotalUserCountAC = (totalUserCount) => {
+    return {
+        type: SET_TOTAL_USER, count:totalUserCount
     }
 }
 export default usersReducer;
